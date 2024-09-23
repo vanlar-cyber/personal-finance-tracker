@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Ledger{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container-fluid p-5 mt-6">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body text-center p-5">
+                    <h1 class="display-4 mb-4">Feature Not Included</h1>
+                    <p class="mb-4">This feature is not included at the moment, but it’s part of future improvements.
+                    </p>
+                    <div class="progress mb-4" style="height: 25px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            style="width: 50%; background-color: #00455C;" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100">50%</div>
+                    </div>
+                    <p>Stay tuned for updates and exciting new features. We can't wait to show you what we've been
+                        working on!</p>
+                    <!-- <img src="/placeholder.svg?height=200&width=200" alt="Under Construction" class="img-fluid mb-4" style="max-width: 200px;"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+{% endblock javascripts %}

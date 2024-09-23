@@ -1,0 +1,141 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Balance Sheet{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Balance Sheet</h1>
+    <form action="/sheet" method="GET">
+        <div class="row mb-3 d-flex align-items-end">
+            <div class="col-md-4 mt-2">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="startDate" name="start_date" value="2024-09-01">
+            </div>
+            <div class="col-md-4 mt-2">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="endDate" name="end_date" value="2024-09-30">
+            </div>
+            <div class="col-md-4 d-flex mt-2">
+                <button type="submit" class="btn btn-primary">Retrieve</button>
+            </div>
+        </div>
+    </form>
+    <!-- <hr><hr> -->
+    <!-- Asset Display -->
+    <!-- <h6 class="text-primary">Your income between {{ start_date }} and {{ end_date }}.</h6> -->
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover caption-top">
+            <caption>Assets between {{ start_date }} and {{ end_date }}</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Account Name</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, asset in assets.iterrows() %}
+                <tr>
+                    <td class="text-center">{{ asset['Account'] }}</td>
+                    <td class="text-center">{{ asset['Amount'] }}</td>
+                    <td class="text-center">{{ asset['Date'] }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-center">Total Asset (Excluding Net Income)</td>
+                    <td class="text-center">{{ total_asset }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-center">Net Income</td>
+                    <td class="text-center">{{ net_income }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="table-info">
+                    <td class="font-weight-bold text-end">Total (including Net Income):</td>
+                    <td class="font-weight-bold text-center">{{ total_asset+net_income }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Expense Display -->
+    <!-- <h6 class="text-primary text-center">Your expenses between {{ start_date }} and {{ end_date }}.</h6> -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover caption-top">
+            <caption>Liabilities between {{ start_date }} and {{ end_date }}</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Account Name</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, liability in liabilities.iterrows() %}
+                <tr>
+                    <td class="text-center">{{ liability['Account'] }}</td>
+                    <td class="text-center">{{ liability['Amount'] }}</td>
+                    <td class="text-center">{{ liability['Date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-info">
+                    <td class="font-weight-bold text-end">Total:</td>
+                    <td class="font-weight-bold text-center">{{ total_liability }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Balance Check -->
+    <div class="container-fluid mb-3 mt-2">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card shadow border-0" style="background-color: #bbd4ff; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <span class="me-3" style="font-size: 1.5rem; color: #3547a2;">
+                                <i class="bi bi-piggy-bank-fill"></i>
+                            </span>
+                            <div>
+                                Total Equity
+                                <h5 class="card-title mb-0">{{ total_equity }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card shadow border-0" style="background-color: #D5E3E5; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <span class="me-3" style="font-size: 1.5rem; color: #35c6dd;">
+                                <i class="bi bi-cash-stack"></i>
+                            </span>
+                            <div>
+                                Balance Check
+                                <h5 class="card-title mb-0">{{ total_equity - (total_asset + net_income +
+                                    total_liability) }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock javascripts %}

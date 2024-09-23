@@ -1,0 +1,148 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Income Statement{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Income Statement</h1>
+    <form action="/statement" method="GET">
+        <div class="row mb-3 d-flex align-items-end">
+            <div class="col-md-4 mt-2">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="startDate" name="start_date" value="2024-09-01">
+            </div>
+            <div class="col-md-4 mt-2">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="endDate" name="end_date" value="2024-09-30">
+            </div>
+            <div class="col-md-4 d-flex mt-2">
+                <button type="submit" class="btn btn-primary">Retrieve</button>
+            </div>
+        </div>
+    </form>
+    <!-- <hr><hr> -->
+    <!-- Overview -->
+    <div class="container-fluid mb-3 mt-2">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card shadow border-0" style="background-color: #e0ffe0; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <span class="me-3" style="font-size: 1.5rem; color: green;">
+                                <i class="bi bi-arrow-up-circle-fill"></i>
+                            </span>
+                            <div>
+                                Total Income
+                                <h5 class="card-title mb-0">{{ total_income }}</h5>
+                                <!-- <h6 class="card-subtitle text-muted">Total Income</h6> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card shadow border-0" style="background-color: #ffe0e0; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <span class="me-3" style="font-size: 1.5rem; color: red;">
+                                <i class="bi bi-arrow-down-circle-fill"></i>
+                            </span>
+                            <div>
+                                Total Expense
+                                <h5 class="card-title mb-0">{{ total_expense }}</h5>
+                                <!-- <h6 class="card-subtitle text-muted">Total Expense</h6> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card shadow border-0" style="background-color: #D5E3E5; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <span class="me-3" style="font-size: 1.5rem; color: #35c6dd;">
+                                <i class="bi bi-cash-stack"></i>
+                            </span>
+                            <div>
+                                Net Income
+                                <h5 class="card-title mb-0">{{ net_income }}</h5>
+                                <!-- <h6 class="card-subtitle text-muted">Net Income</h6> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Income Display -->
+    <!-- <h6 class="text-primary">Your income between {{ start_date }} and {{ end_date }}.</h6> -->
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover caption-top">
+            <caption>Your income between {{ start_date }} and {{ end_date }}</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Account Name</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, income in income_data.iterrows() %}
+                <tr>
+                    <td class="text-center">{{ income['account_name'] }}</td>
+                    <td class="text-center">{{ income['amount'] }}</td>
+                    <td class="text-center">{{ income['date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-info">
+                    <td class="font-weight-bold text-end">Total:</td>
+                    <td class="font-weight-bold text-center">{{ total_income }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Expense Display -->
+    <!-- <h6 class="text-primary text-center">Your expenses between {{ start_date }} and {{ end_date }}.</h6> -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover caption-top">
+            <caption>Your expenses between {{ start_date }} and {{ end_date }}</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Account Name</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, expense in expense_data.iterrows() %}
+                <tr>
+                    <td class="text-center">{{ expense['account_name'] }}</td>
+                    <td class="text-center">{{ expense['amount'] }}</td>
+                    <td class="text-center">{{ expense['date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-info">
+                    <td class="font-weight-bold text-end">Total:</td>
+                    <td class="font-weight-bold text-center">{{ total_expense }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock javascripts %}

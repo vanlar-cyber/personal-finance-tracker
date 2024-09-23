@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Primary Meta Tags -->
+
+<title>
+    PFT - {% block title %}{% endblock %} 
+</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Van">
+
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1n0xgI+ZGrKkJ6C0x0Ltn1hkVbGqKPOOQ+2BZ2s1U1FXN71XGdf18OKMLO2b+vyz" crossorigin="anonymous">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+<link type="text/css" href="{{ config.ASSETS_ROOT }}/css/main.css" rel="stylesheet">
+<link type="text/css" href="{{ config.ASSETS_ROOT }}/css/base.css" rel="stylesheet">
+
+<!-- Specific Page JS goes HERE  -->    
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+</head>
+<body style="background-color: #fafafa;">
+
+    {% include 'includes/sidebar.html' %}
+    
+    <main class="content">
+
+      {{ moment.include_moment() }}
+    
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert border rounded bg-white alert-dismissible fade show mt-2 opacity-50 font-small fw-bold p-2 border-{{category}} text-center" role="alert">
+                    <div>{{ message }}</div>
+                    <button type="button" class="btn-close btn-sm mt-1 m-2 p-2" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+      {% endwith %}
+      
+      {% block content %}
+      {% endblock content %} 
+
+    </main>
+    
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}
+  <!-- Handling active nav bar -->
+  <!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-rluAV1j6+vQFSB0Lk6uMxD5w2tSkB1zM2jGx2Mg3V5fEL3k0Q/eYHgRcf3XBf1T" crossorigin="anonymous"></script>
+
+  <!-- Updating select options -->
+  <script>
+    function updateSelectedBoxValue(id, value){
+        console.log(id, value);
+        
+        var mySelect = document.getElementById(id);
+        for(var i, j = 0; i = mySelect.options[j]; j++) {
+            if(i.value == value) {
+                mySelect.selectedIndex = j;
+                break;
+            }
+        }
+    }
+
+    function updateTextBoxValue(id, value){
+        var textbox = document.getElementById(id);
+        textbox.value = value;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
+        var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+            return new bootstrap.Offcanvas(offcanvasEl);
+        });
+
+        // Example toggle function for preview mode
+        var sidebar = document.getElementById('offcanvasSidebar');
+        document.getElementById('togglePreview').addEventListener('click', function () {
+            sidebar.classList.toggle('preview-mode');
+        });
+    });
+  </script>
+
+  {% endblock javascripts %}  
+      
+</body>
+</html>
