@@ -19,4 +19,4 @@ RUN flask db migrate
 RUN flask db upgrade
 
 # gunicorn
-CMD ["gunicorn", "--config", "gunicorn-cfg.py", "app:app"]
+CMD ["gunicorn", "app:app"]
