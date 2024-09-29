@@ -3,7 +3,7 @@ FROM python:3.10
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV FLASK_APP run.py
+ENV FLASK_APP app.py
 ENV DEBUG True
 
 COPY requirements.txt .
@@ -21,4 +21,4 @@ RUN flask db migrate
 RUN flask db upgrade
 
 # gunicorn
-CMD ["gunicorn", "--config", "gunicorn-cfg.py", "run:app"]
+CMD ["gunicorn", "--config", "gunicorn-cfg.py", "app:app"]
